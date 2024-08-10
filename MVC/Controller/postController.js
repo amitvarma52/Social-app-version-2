@@ -4,22 +4,22 @@ import { postModel } from "../Model/postModel.js";
 // create post
 export const createPostController = async (req, res) => {
   try {
-    const { id, fromUser, title, description, hashtags } = req.body;
+    const { id, fromUser, title, description, hashtags, reactions } = req.body;
     const newPost = new postModel({
       id,
       fromUser,
       title,
       description,
       hashtags,
+      reactions,
     });
-    
+
     await newPost.save();
     res.status(200).json({
       success: true,
       newPost,
     });
   } catch (error) {
-    
     console.log(error);
     res.status(400).json({
       success: false,
@@ -72,40 +72,31 @@ export const postDelete = async (req, res) => {
   }
 };
 
-// update
+// update like
 
-// export const postUpdateController = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const post = await postModel.findById(id);
-//     if (post) {
-//       post.name = req.body.name || post.name;
-//       post.last_name = req.body.last_name || post.last_name;
-//       post.email = req.body.email || post.email;
-//       post.phone = req.body.phone || post.phone;
-
-//       // Check if password is provided in the request body
-//       if (req.body.password) {
-//         post.password = req.body.password;
-//       }
-
-//       const updateUser = await post.save();
-//       return res.status(200).send({
-//         status: "success",
-//         message: "User updated successfully",
-//         updateUser,
-//       });
-//     } else {
-//       res.status(404).send({
-//         status: "error",
-//         message: "User not found",
-//       });
-//     }
-//   } catch (error) {
-//     console.log(`Error in API: ${error}`);
-//     res.status(500).send({
-//       status: "error",
-//       message: "Internal Server Error",
-//     });
-//   }
-// };
+export const likeUpdateController = async (req, res) => {
+  try {
+    const { id ,name} = req.body;
+    const post = await postModel.findOne({id});
+    if (post.reactions.includes(name)) {
+      res.status(404).send({
+        status: "error",
+        message:  `already liked by ${name}`,
+      });
+    }else{
+      post.reactions.push(name)
+      const updateUser = await post.save();
+      return res.status(200).send({
+        status: "success",
+        message: "User updated successfully",
+        updateUser,
+      });
+    }
+  } catch (error) {
+    console.log(`Error in API: ${error}`);
+    res.status(500).send({
+      status: "error",
+      message: "Internal Server Error",
+    });
+  }
+};

@@ -23,6 +23,10 @@ const postSchema = mongoose.Schema(
       type: Array,
       require: [true, "hashtags are require"],
     },
+    reactions: {
+      type: Array,
+      require: false,
+    },
   },
   { timeStamp: true },
   { id: false }
