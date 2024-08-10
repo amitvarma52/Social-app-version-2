@@ -7,9 +7,6 @@ import { userActions } from "../Store/ReduxToolkit";
 
 const Header = () => {
   const user = useSelector((state) => state.user);
-  useEffect(() => {
-    console.log("Header re-rendered due to user state change:", user);
-  }, [user]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

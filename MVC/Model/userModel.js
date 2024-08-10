@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema(
     name: {
       type: String,
       require: [true, "name is required"],
+      unique:true,
     },
     email: {
       type: String,
@@ -18,5 +19,5 @@ const userSchema = mongoose.Schema(
     },
   },
   { timestamp: true }
-); //for capturing record time
+); 
 export const userModel = mongoose.model("users", userSchema);

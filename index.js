@@ -4,6 +4,7 @@ import cors from 'cors'
 import morgan from 'morgan'
 import { connect } from './DB/DB.js'
 import userRouter from './MVC/Route/userRoute.js'
+import postRouter from './MVC/Route/postRoute.js'
 const app = express()
 dotenv.config()
 // middlewares
@@ -17,6 +18,7 @@ app.get('/',(req,res)=>{
 })
 // api
 app.use('/api/v1/social/user',userRouter)
+app.use("/api/v1/social/post", postRouter);
 // listen
 const PORT = process.env.PORT || 8080
 app.listen(PORT,()=>{
