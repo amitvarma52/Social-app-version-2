@@ -4,36 +4,38 @@ import React, { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const name=useRef()
-  const email=useRef()
-  const password=useRef()
-  const navigate=useNavigate()
-  const handleSignUp=(e)=>{
-    e.preventDefault()
+  const name = useRef();
+  const email = useRef();
+  const password = useRef();
+  const location = useRef();
+  const navigate = useNavigate();
+  const handleSignUp = (e) => {
+    e.preventDefault();
     try {
-    fetch("http://localhost:8080/api/v1/social/user/register", {
-      method: "post",
-      body: JSON.stringify({
-        name: name.current.value,
-        email: email.current.value,
-        password: password.current.value,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        name.current.value=""
-        email.current.value = "";
-        password.current.value = "";
-        navigate('/login')
-      });
+      fetch("http://localhost:8080/api/v1/social/user/register", {
+        method: "post",
+        body: JSON.stringify({
+          name: name.current.value,
+          email: email.current.value,
+          password: password.current.value,
+          location: location.current.value,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          name.current.value = "";
+          email.current.value = "";
+          password.current.value = "";
+          location.current.value = "";
+          navigate("/login");
+        });
     } catch (error) {
-      alert(error)
+      alert(error);
     }
-  }
+  };
   return (
     <div className="form-div">
       <div className="main">
@@ -57,6 +59,13 @@ const SignUp = () => {
             ref={email}
             onChange={(e) => (email.current.value = e.target.value)}
           />
+            <input
+              className="un"
+              type="location"
+              placeholder="location"
+              ref={location}
+              onChange={(e) => (location.current.value = e.target.value)}
+            />
           <input
             className="pass"
             type="password"

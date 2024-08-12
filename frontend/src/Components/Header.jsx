@@ -3,11 +3,10 @@
 import React, { useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { userActions } from "../Store/ReduxToolkit";
+import { allDataActions, myDataActions, userActions } from "../Store/ReduxToolkit";
 
 const Header = () => {
   const user = useSelector((state) => state.user);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -15,6 +14,8 @@ const Header = () => {
     if (localStorage.getItem("social-user")) {
       localStorage.removeItem("social-user");
       dispatch(userActions.delete());
+      dispatch(myDataActions.delete())
+      dispatch(allDataActions.delete())
       navigate("/login");
     }
   };

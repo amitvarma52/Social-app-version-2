@@ -27,6 +27,10 @@ const postSchema = mongoose.Schema(
       type: Array,
       require: false,
     },
+    location: {
+      type: String,
+      require: [true, "location is required"],
+    },
   },
   { timeStamp: true },
   { id: false }

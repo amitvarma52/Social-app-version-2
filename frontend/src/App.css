@@ -23,6 +23,11 @@ li:focus {
 .delete-btn {
   padding: 20px;
 }
+.delete-btn:hover{
+  opacity: 0.9;
+  cursor: pointer;
+  transition: 0.4s;
+}
 .hastags {
   margin: 0px 4px;
   padding: 3px 5px;

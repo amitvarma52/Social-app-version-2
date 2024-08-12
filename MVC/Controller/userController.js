@@ -25,9 +25,9 @@ export const loginController = async (req, res) => {
 }
 export const registerController = async (req, res) => {
   try {
-    const {name ,email,password}=req.body
+    const {name ,email,password,location}=req.body
     const hashedPassword = await hashPassword(password);
-    const newUser = new userModel({name,email,password:hashedPassword});
+    const newUser = new userModel({name,email,location,password:hashedPassword});
 
     await newUser.save();
     res.status(200).json({

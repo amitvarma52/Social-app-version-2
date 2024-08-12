@@ -4,7 +4,7 @@ import { postModel } from "../Model/postModel.js";
 // create post
 export const createPostController = async (req, res) => {
   try {
-    const { id, fromUser, title, description, hashtags, reactions } = req.body;
+    const { id, fromUser, title, description, hashtags, reactions,location } = req.body;
     const newPost = new postModel({
       id,
       fromUser,
@@ -12,6 +12,7 @@ export const createPostController = async (req, res) => {
       description,
       hashtags,
       reactions,
+      location
     });
 
     await newPost.save();
@@ -33,6 +34,23 @@ export const getUserPost = async (req, res) => {
     const { fromUser } = req.body;
     // check if post exists
     const posts = await postModel.find({ fromUser });
+    if (!posts || posts.length == 0) {
+      return res.status(404).send("no posts found");
+    }
+    res.status(200).send({
+      status: "success",
+      message: "post added successfully",
+      posts,
+    });
+  } catch (error) {
+    res.status(500).send("Internal server error");
+  }
+};
+export const getAllPosts = async (req, res) => {
+  try {
+    const { location } = req.body;
+    // check if post exists
+    const posts = await postModel.find({ location });
     if (!posts || posts.length == 0) {
       return res.status(404).send("no posts found");
     }
@@ -79,9 +97,12 @@ export const likeUpdateController = async (req, res) => {
     const { id ,name} = req.body;
     const post = await postModel.findOne({id});
     if (post.reactions.includes(name)) {
+      post.reactions.remove(name)
+      const updateUser = await post.save();
       res.status(404).send({
         status: "error",
-        message:  `already liked by ${name}`,
+        message: 'removed like ',
+        updateUser
       });
     }else{
       post.reactions.push(name)

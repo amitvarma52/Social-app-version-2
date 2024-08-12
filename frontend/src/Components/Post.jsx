@@ -12,9 +12,8 @@ const Post = ({
   title,
   description,
   hashtags,
+  location,
   reactions,
-  setReload,
-  reload,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -61,9 +60,10 @@ const Post = ({
             <MdDelete size={20} />
           </span>
           <h5 className="card-title" ref={deleteItem}>
-            {title}
+            🗨️  {title}
           </h5>
-          <p className="card-text">{description}</p>
+          <p className="card-text">📃 {description}</p>
+          <p className="card-text">📍 {location}</p>
 
           {hashtags.map((element) => (
             <span

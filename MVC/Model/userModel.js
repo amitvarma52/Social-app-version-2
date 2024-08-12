@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema(
     name: {
       type: String,
       require: [true, "name is required"],
-      unique:true,
+      unique: true,
     },
     email: {
       type: String,
@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       require: [true, "password is required"],
+    },
+    location: {
+      type: String,
+      require: [true, "location is required"],
     },
   },
   { timestamp: true }

@@ -22,7 +22,8 @@ const CreatePost = () => {
         fromUser:user.name,
         title:title,
         description:description,
-        hashtags:hashtags.split(" ")
+        hashtags:hashtags.split(" "),
+        location:user.location
       })
       ,headers: {
         "Content-Type": "application/json",

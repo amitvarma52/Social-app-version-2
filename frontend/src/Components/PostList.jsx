@@ -2,14 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
-import Loading from "./Loading";
 import NoPost from "./NoPost";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { myDataActions, userActions } from "../Store/ReduxToolkit";
 const PostList = () => {
-  const data=useSelector(state=>state.myData)
-  const [reload,setReload]=useState(false)
+  const data = useSelector((state) => state.myData);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,38 +29,39 @@ const PostList = () => {
           }
         })
         .then((data) => {
-          dispatch(myDataActions.initial(data.posts));
+          dispatch(myDataActions.initial(data.posts.reverse()));
         });
     } else {
       navigate("/login");
     }
-  },[]);
+  }, []);
   if (data.length === 0) {
     return (
       <>
         <NoPost />
       </>
     );
+  } else {
+    return (
+      <>
+        {data.map((element) => {
+          return (
+            <Post
+              key={element.title}
+              id={element.id}
+              fromUser={element.fromUser}
+              title={element.title}
+              description={element.description}
+              hashtags={element.hashtags}
+              reactions={element.reactions}
+              location={element.location}
+            />
+          );
+        })}
+      </>
+    );
   }
-  return (
-    <>
-      {data.map((element) => {
-        return (
-          <Post
-            key={element.title}
-            id={element.id}
-            fromUser={element.fromUser}
-            title={element.title}
-            description={element.description}
-            hashtags={element.hashtags}
-            reactions={element.reactions}
-            setReload={setReload} 
-            reload={reload}
-          />
-        );
-      })}
-    </>
-  );
-};
+}
+  
 
 export default PostList;

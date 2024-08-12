@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import { FaRegSmile } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 const Sidebar = () => {
   const user = useSelector((state) => state.user);
 
@@ -104,37 +105,21 @@ const Sidebar = () => {
         <div className="dropdown">
           <a
             href="#"
-            className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+            className="d-flex align-items-center text-white text-decoration-none "
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {user && <h5 style={{ marginLeft: "20px" }}>{user.name}</h5>}
+            {user && <h4 style={{ marginLeft: "35px" }}>{<FaRegSmile size={20}/>}  {user.name}</h4>}
           </a>
-          <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
-            <li>
-              <a className="dropdown-item" href="#">
-                New project...
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Settings
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Profile
-              </a>
-            </li>
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Sign out
-              </a>
-            </li>
-          </ul>
+          <a
+            href="#"
+            className="d-flex align-items-center text-white text-decoration-none "
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {user && <h6 style={{ marginLeft: "45px" }}>{<FaLocationDot size={15}/>}   {user.location}</h6>}
+          </a>
+          
         </div>
       </div>
     </>
