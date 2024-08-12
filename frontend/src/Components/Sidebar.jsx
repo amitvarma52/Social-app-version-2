@@ -1,16 +1,29 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Sidebar = ({ show, setShow }) => {
+const Sidebar = () => {
   const user = useSelector((state) => state.user);
-  const handleTrue = () => {
-    setShow(false);
+
+  const [post, setPost] = useState(true);
+  const [allPosts, setAllPosts] = useState(false);
+  const [create, setCreate] = useState(false);
+  const handlePost = () => {
+    setPost(true);
+    setAllPosts(false);
+    setCreate(false);
   };
-  const handleFalse = () => {
-    setShow(true);
+  const handleCreate = () => {
+    setPost(false);
+    setAllPosts(false);
+    setCreate(true);
+  };
+  const handleAllPosts = () => {
+    setPost(false);
+    setAllPosts(true);
+    setCreate(false);
   };
   return (
     <>
@@ -33,41 +46,60 @@ const Sidebar = ({ show, setShow }) => {
           <span className="fs-2 center">Social app</span>
         </a>
         <hr />
-          {user &&<ul className="nav nav-pills flex-column mb-auto">
-          <li className="nav-item">
-            <Link
-              to="/"
-              className={
-                show == false
-                  ? "change nav-link text-white active"
-                  : "change nav-link text-white "
-              }
-              onClick={handleTrue}
-            >
-              <svg className="bi pe-none me-2" width="16" height="16">
-                <use xlinkHref="#home"></use>
-              </svg>
-              Posts
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/create-post"
-              className={
-                show == true
-                  ? "change nav-link text-white active"
-                  : "change nav-link text-white "
-              }
-              onClick={handleFalse}
-            >
-              <svg className="bi pe-none me-2" width="16" height="16">
-                <use xlinkHref="#speedometer2"></use>
-              </svg>
-              Create
-            </Link>
-          </li>
-        </ul>} 
-        
+        {user && (
+          <ul className="nav nav-pills flex-column mb-auto">
+            <li>
+              <Link
+                to="/create-post"
+                className={
+                  create
+                    ? "change nav-link text-white active"
+                    : "change nav-link text-white "
+                }
+                onClick={handleCreate}
+              >
+                <svg className="bi pe-none me-2" width="16" height="16">
+                  <use xlinkHref="#speedometer2"></use>
+                </svg>
+                Create
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/"
+                className={
+                  post
+                    ? "change nav-link text-white active"
+                    : "change nav-link text-white "
+                }
+                onClick={handlePost}
+              >
+                <svg className="bi pe-none me-2" width="16" height="16">
+                  <use xlinkHref="#home"></use>
+                </svg>
+                My Posts
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                to="/all-posts"
+                className={
+                  allPosts
+                    ? "change nav-link text-white active"
+                    : "change nav-link text-white "
+                }
+                onClick={handleAllPosts}
+              >
+                <svg className="bi pe-none me-2" width="16" height="16">
+                  <use xlinkHref="#speedometer2"></use>
+                </svg>
+                all Posts
+              </Link>
+            </li>
+          </ul>
+        )}
+
         <hr />
         <div className="dropdown">
           <a

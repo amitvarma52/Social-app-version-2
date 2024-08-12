@@ -1,30 +1,38 @@
-import React, { useContext, useEffect, useState } from "react";
-import { appContext } from "../Store/Store";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const CreatePost = () => {
-  const {setShow} = useOutletContext()
-  const { handleAddPost } = useContext(appContext);
   const [title, setTitle] = useState("");
   const [hashtags, setHashTags] = useState("");
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAddPost(title, description, hashtags.split(" "));
+    fetch("http://localhost:8080/api/v1/social/post/create",{
+      method:'post',
+      body:JSON.stringify({
+        id:user.name+title,
+        fromUser:user.name,
+        title:title,
+        description:description,
+        hashtags:hashtags.split(" ")
+      })
+      ,headers: {
+        "Content-Type": "application/json",
+      },
+    });
     setTitle("");
     setDescription("");
     setHashTags("");
-    navigate("/");
-    setShow(false)
   };
-  const user=useSelector(state=>state.user)
-  useEffect(()=>{
-    if(!user){
-      navigate('/login')
-    }
-  })
+  
   return (
     <>
       <form className="create-post" onSubmit={handleSubmit}>

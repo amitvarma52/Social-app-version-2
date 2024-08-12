@@ -13,9 +13,20 @@ const userSlice = createSlice({
     },
   },
 });
+const myDataSlice=createSlice({
+  name:'myData',
+  initialState:[],
+  reducers:{
+    initial:(state,actions)=>{
+      return actions.payload
+    }
+  }
+})
 export const store = configureStore({
   reducer: {
     user: userSlice.reducer,
+    myData:myDataSlice.reducer
   },
 });
 export const userActions = userSlice.actions;
+export const myDataActions=myDataSlice.actions
